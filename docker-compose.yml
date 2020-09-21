@@ -3,7 +3,12 @@ version: '3.6'
 services:
   proxy:
     build: .
-    restart: always
+    container_name: docker-proxy
+    restart: unless-stopped
+    networks: 
+      - nginx-proxy
+      - aiminaabee-network
+      - aasandha-network
     ports:
       - 80:80
       - 443:443
@@ -15,14 +20,14 @@ services:
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
 
-  letsencrypt-companion:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    restart: always
-    volumes:
-      - certs:/etc/nginx/certs
-      - vhost.d:/etc/nginx/vhost.d
-      - html:/usr/share/nginx/html
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+  # letsencrypt-companion:
+  #   image: jrcs/letsencrypt-nginx-proxy-companion
+  #   restart: always
+  #   volumes:
+  #     - certs:/etc/nginx/certs
+  #     - vhost.d:/etc/nginx/vhost.d
+  #     - html:/usr/share/nginx/html
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
 
 volumes:
   certs:
@@ -30,7 +35,9 @@ volumes:
   html:
 
 networks:
-  default:
-    external:
-      name: nginx-proxy
-
+  nginx-proxy:
+    external: true
+  aiminaabee-network:
+    external: true
+  aasandha-network:
+    external: true
