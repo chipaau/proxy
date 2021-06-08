@@ -7,8 +7,6 @@ services:
     restart: unless-stopped
     networks: 
       - nginx-proxy
-      - aiminaabee-network
-      - aasandha-network
     ports:
       - 80:80
       - 443:443
@@ -36,8 +34,4 @@ volumes:
 
 networks:
   nginx-proxy:
-    external: true
-  aiminaabee-network:
-    external: true
-  aasandha-network:
     external: true
